@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Radium, { StyleRoot } from 'radium';
 
 
 class App extends Component {
@@ -10,7 +11,7 @@ class App extends Component {
   // Have a unique id for state so React could update the UI efficiently.
   state = {
     persons: [
-      { id: 'abc1', name: "Sony", age: 28 },
+      { id: 'abc1', name: "Tony", age: 28 },
       { id: 'abc3', name: "Manu", age: 29 },
       { id: 'abc5', name: "Armin", age: 30 }
     ],
@@ -55,11 +56,16 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
       cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null;
@@ -79,27 +85,44 @@ class App extends Component {
           })}
         </div>
       );
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
+    }
+
+    const classes = [];
+    
+    if (this.state.persons.length <= 2) {
+      classes.push('red');
+    }
+
+    if (this.state.persons.length <= 1) {
+      classes.push('bold');
     }
 
     return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>This is a test.</p>
-        {/* An alternative to this.switchNameHandler.bind... */}
-        {/* Not recommended to use though coz of performance hit. */}
-        <button onClick={() => this.switchNameHandler('Maze!!!')}>Switch Name One</button>
-        
-        <button 
-          style={style}
-          onClick={this.togglePersonsHandler}>Switch Name Two</button>
-        {persons}
-      </div>
+      <StyleRoot>
+        <div className="App">
+          <h1>Hi, I'm a React App</h1>
+          <p className={classes.join(' ')}>This is a test.</p>
+          {/* An alternative to this.switchNameHandler.bind... */}
+          {/* Not recommended to use though coz of performance hit. */}
+          {/* <button onClick={() => this.switchNameHandler('Maze!!!')}>Switch Name One</button> */}
+          
+          <button 
+            style={style}
+            onClick={this.togglePersonsHandler}>Switch Name</button>
+          {persons}
+        </div>
+      </StyleRoot>
     );
   }
 
 }
 
-export default App;
+export default Radium(App);
 
 /*
 // This is function-based components
