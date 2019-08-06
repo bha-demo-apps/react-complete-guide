@@ -7,35 +7,45 @@ import Person from './Person/Person';
 
 class App extends Component {
 
+  // Have a unique id for state so React could update the UI efficiently.
   state = {
     persons: [
-      { name: "Sony", age: 28 },
-      { name: "Manu", age: 29 },
-      { name: "Armin", age: 30 }
+      { id: 'abc1', name: "Sony", age: 28 },
+      { id: 'abc3', name: "Manu", age: 29 },
+      { id: 'abc5', name: "Armin", age: 30 }
     ],
     otherState: 'some other value',
     showPersons: false
   };
 
-  switchNameHandler = (newName) => {
-    console.log('Was clicked!');
-    this.setState({ 
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 29 },
-        { name: 'Armin', age: 32 }
-      ]
-    })
+  deletePersonHandler = (personIndex) => {
+    // This is just a reference type.
+    // const persons = this.state.persons;
+
+    // Make a copy of persons state before mutating it. 
+    // Good practice.
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: "Sony", age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: 'Cat', age: 26 }
-      ]
-    })
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    // Make a copy.
+    const person = { 
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+
+    // Make a copy.
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons });
   }
 
   togglePersonsHandler = () => {
@@ -57,17 +67,24 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = ( 
         <div>
-          {this.state.persons.map(person => {
-            return <Person name={person.name} age={person.age} />
+          {/* Use arrow function if you want to pass value to a function. */}
+          {/* E.g. () => this.deletePersonHandler(index) */}
+          {this.state.persons.map((person, index) => {
+            return <Person 
+              click={() => this.deletePersonHandler(index)} 
+              name={person.name} 
+              age={person.age} 
+              key={person.id}
+              changed={(event) => this.nameChangedHandler(event, person.id)} />
           })}
-        </div>    
+        </div>
       );
     }
 
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
-        <p>This is working.</p>
+        <p>This is a test.</p>
         {/* An alternative to this.switchNameHandler.bind... */}
         {/* Not recommended to use though coz of performance hit. */}
         <button onClick={() => this.switchNameHandler('Maze!!!')}>Switch Name One</button>
