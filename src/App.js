@@ -1,7 +1,8 @@
 // Hooks start with 'use' keyword, i.e. useState
 import React, { Component } from 'react';
-// import React, { useState } from 'react';
-import './App.css';
+// import './App.css';
+import styles from './App.css';
+
 import Person from './Person/Person';
 
 
@@ -21,7 +22,7 @@ class App extends Component {
   deletePersonHandler = (personIndex) => {
     // This is just a reference type.
     // const persons = this.state.persons;
-
+    
     // Make a copy of persons state before mutating it. 
     // Good practice.
     const persons = [...this.state.persons];
@@ -95,7 +96,7 @@ class App extends Component {
     }
 
     return (
-        <div className="App">
+        <div className={styles.App}>
           <h1>Hi, I'm a React App</h1>
           <p className={classes.join(' ')}>This is a test.</p>
           {/* An alternative to this.switchNameHandler.bind... */}
