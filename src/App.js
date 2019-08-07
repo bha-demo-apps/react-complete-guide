@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 // import './App.css';
 import styles from './App.module.css';
 import Person from './Person/Person';
-
+import ErrorBounday from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
 
   // Have a unique id for state so React could update the UI efficiently.
   state = {
     persons: [
-      { id: 'abc1', name: "Tony", age: 28 },
+      { id: 'abc1', name: "Toby", age: 28 },
       { id: 'abc3', name: "Manu", age: 29 },
       { id: 'abc5', name: "Armin", age: 30 }
     ],
@@ -31,6 +31,7 @@ class App extends Component {
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
+      //return p.id === id;
       return p.id === id;
     });
 
@@ -63,12 +64,13 @@ class App extends Component {
           {/* Use arrow function if you want to pass value to a function. */}
           {/* E.g. () => this.deletePersonHandler(index) */}
           {this.state.persons.map((person, index) => {
-            return <Person 
-              click={() => this.deletePersonHandler(index)} 
-              name={person.name} 
-              age={person.age} 
-              key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)} />
+            return <ErrorBounday key={person.id}> 
+                <Person 
+                  click={() => this.deletePersonHandler(index)} 
+                  name={person.name} 
+                  age={person.age}
+                  changed={(event) => this.nameChangedHandler(event, person.id)} />
+              </ErrorBounday>
           })}
         </div>
       );
