@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 // import './App.css';
 import styles from './App.module.css';
 import Person from './Person/Person';
-import ErrorBounday from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
 
@@ -64,13 +63,12 @@ class App extends Component {
           {/* Use arrow function if you want to pass value to a function. */}
           {/* E.g. () => this.deletePersonHandler(index) */}
           {this.state.persons.map((person, index) => {
-            return <ErrorBounday key={person.id}> 
-                <Person 
+            return <Person 
                   click={() => this.deletePersonHandler(index)} 
                   name={person.name} 
                   age={person.age}
+                  key={person.id}
                   changed={(event) => this.nameChangedHandler(event, person.id)} />
-              </ErrorBounday>
           })}
         </div>
       );
