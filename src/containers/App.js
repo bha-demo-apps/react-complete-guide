@@ -1,8 +1,8 @@
 // Hooks start with 'use' keyword, i.e. useState
 import React, { Component } from 'react';
-// import './App.css';
 import styles from './App.module.css';
-import Person from '../components/Persons/Person';
+import Person from '../components/Persons/Person/Person';
+import Persons from '../components/Persons/Persons';
 
 class App extends Component {
 
@@ -62,41 +62,20 @@ class App extends Component {
         <div>
           {/* Use arrow function if you want to pass value to a function. */}
           {/* E.g. () => this.deletePersonHandler(index) */}
-          {this.state.persons.map((person, index) => {
-            return <Person 
-                  click={() => this.deletePersonHandler(index)} 
-                  name={person.name} 
-                  age={person.age}
-                  key={person.id}
-                  changed={(event) => this.nameChangedHandler(event, person.id)} />
-          })}
+          <Persons 
+            persons={this.state.persons} 
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangedHandler} />
         </div>
       );
 
       btnClass = styles.red;  
     }
 
-    const assignedClasses = [];
-    
-    if (this.state.persons.length <= 2) {
-      assignedClasses.push(styles.red);
-    }
-
-    if (this.state.persons.length <= 1) {
-      assignedClasses.push(styles.bold);
-    }
+   
 
     return (
         <div className={styles.App}>
-          <h1>Hi, I'm a React App</h1>
-          <p className={assignedClasses.join(' ')}>This is a test.</p>
-          {/* An alternative to this.switchNameHandler.bind... */}
-          {/* Not recommended to use though coz of performance hit. */}
-          {/* <button onClick={() => this.switchNameHandler('Maze!!!')}>Switch Name One</button> */}
-          
-        <button
-            className={btnClass}
-            onClick={this.togglePersonsHandler}>Switch Name</button>
           {persons}
         </div>
     );
