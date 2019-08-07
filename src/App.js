@@ -55,7 +55,8 @@ class App extends Component {
 
   render() {
     let persons = null;
-    
+    let btnClass = '';
+
     if (this.state.showPersons) {
       persons = ( 
         <div>
@@ -71,6 +72,8 @@ class App extends Component {
           })}
         </div>
       );
+
+      btnClass = styles.red;  
     }
 
     const assignedClasses = [];
@@ -91,7 +94,8 @@ class App extends Component {
           {/* Not recommended to use though coz of performance hit. */}
           {/* <button onClick={() => this.switchNameHandler('Maze!!!')}>Switch Name One</button> */}
           
-          <button 
+        <button
+            className={btnClass}
             onClick={this.togglePersonsHandler}>Switch Name</button>
           {persons}
         </div>
