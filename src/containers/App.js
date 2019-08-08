@@ -9,6 +9,11 @@ import Cockpit from '../components/Cockpit/Cockpit';
 // E.g. () => this.deletePersonHandler(index) 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
+
   // Have a unique id for state so React could update the UI efficiently.
   state = {
     persons: [
@@ -19,6 +24,15 @@ class App extends Component {
     otherState: 'some other value',
     showPersons: false
   };
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
 
   deletePersonHandler = (personIndex) => {
     // This is just a reference type.
@@ -57,7 +71,9 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] render');
     let persons = null;
+
     if (this.state.showPersons) {
       persons = <Persons
                   persons={this.state.persons} 
