@@ -1,8 +1,14 @@
 import React from 'react';
-import styles from './Cockpit.css';
+import styles from './Cockpit.module.css';
 
 const cockpit = (props) => {
   const assignedClasses = [];
+  let btnClass = '';
+
+  if (props.showPersons) {
+    btnClass = styles.red;
+  }
+
   if (props.persons.length <= 2) {
     assignedClasses.push(styles.red);
   }
@@ -21,7 +27,7 @@ const cockpit = (props) => {
       
       <button
         className={btnClass}
-        onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        onClick={props.clicked}>Toggle Persons</button>
     </div>
 
   );

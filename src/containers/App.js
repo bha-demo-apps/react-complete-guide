@@ -1,11 +1,14 @@
 // Hooks start with 'use' keyword, i.e. useState
 import React, { Component } from 'react';
 import styles from './App.module.css';
-import Person from '../components/Persons/Person/Person';
 import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
+
+// Notes:
+// Use arrow function if you want to pass value to a function. 
+// E.g. () => this.deletePersonHandler(index) 
 
 class App extends Component {
-
   // Have a unique id for state so React could update the UI efficiently.
   state = {
     persons: [
@@ -55,29 +58,21 @@ class App extends Component {
 
   render() {
     let persons = null;
-    let btnClass = '';
-
     if (this.state.showPersons) {
-      persons = ( 
-        <div>
-          {/* Use arrow function if you want to pass value to a function. */}
-          {/* E.g. () => this.deletePersonHandler(index) */}
-          <Persons 
-            persons={this.state.persons} 
-            clicked={this.deletePersonHandler}
-            changed={this.nameChangedHandler} />
-        </div>
-      );
-
-      btnClass = styles.red;  
+      persons = <Persons
+                  persons={this.state.persons} 
+                  clicked={this.deletePersonHandler}
+                  changed={this.nameChangedHandler} />
     }
 
-   
-
     return (
-        <div className={styles.App}>
-          {persons}
-        </div>
+      <div className={styles.App}>
+        <Cockpit
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler} />
+        {persons}
+      </div>
     );
   }
 
