@@ -19,7 +19,7 @@ const cockpit = (props) => {
 
   return (
     <div className={styles.Cockpit}>
-      <h1>Hi, I'm a React App</h1>
+      <h1>{props.appTitle}</h1>
       <p className={assignedClasses.join(' ')}>This is a test.</p>
       {/* An alternative to this.switchNameHandler.bind... */}
       {/* Not recommended to use though coz of performance hit. */}
