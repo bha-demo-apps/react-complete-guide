@@ -11,9 +11,21 @@ class Persons extends Component {
   //   console.log('[Persons.js] componentWillReceiveProps', props);
   // }
 
+  // If you find that you need to do a lot of checks, then maybe
+  // is a good idea to use PureComponent that already implement 
+  // shouldComponentUpdate()
   shouldComponentUpdate(nextProps, nextState) {
     console.log('[Persons.js] shouldComponentUpdate');
-    return true;
+    if (
+      nextProps.persons !== this.props.persons ||
+      nextProps.changed !== this.props.changed ||
+      nextProps.clicked !== this.props.clicked
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+    //return true;
   }
 
   getSnapshotBeforeUpdate(preProps, prevState) {
@@ -27,6 +39,10 @@ class Persons extends Component {
   componentDidUpdate(preProps, prevState, snapshot) {
     console.log('[Persons.js] componentDidUpdate');
     console.log(snapshot);
+  }
+  
+  componentWillUnmount() {
+    console.log('[Persons.js] componentWillUnmount')
   }
 
   render() {
