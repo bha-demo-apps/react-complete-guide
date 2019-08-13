@@ -3,12 +3,19 @@ import React, { Component } from 'react';
 import styles from './App.module.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Auxiliary';
 
 // Notes:
 // Use arrow function if you want to pass value to a function. 
 // E.g. () => this.deletePersonHandler(index) 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
+
   // Have a unique id for state so React could update the UI efficiently.
   state = {
     persons: [
@@ -17,8 +24,30 @@ class App extends Component {
       { id: 'abc5', name: "Armin", age: 30 }
     ],
     otherState: 'some other value',
-    showPersons: false
+    showPersons: false,
+    showCockpit: true,
+    changeCounter: 0
   };
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js] shouldComponentUpdate');
+    // return false; - prevent from updating.
+    return true;
+  }
+
+  // This hook will be used a lot.
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
+  }
 
   deletePersonHandler = (personIndex) => {
     // This is just a reference type.
@@ -48,7 +77,14 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({ persons: persons });
+    // Update state that's based on previous state.
+    this.setState((prevState, props) => {  
+      return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1
+      };
+    });
+     
   }
 
   togglePersonsHandler = () => {
@@ -57,7 +93,9 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] render');
     let persons = null;
+
     if (this.state.showPersons) {
       persons = <Persons
                   persons={this.state.persons} 
@@ -66,19 +104,23 @@ class App extends Component {
     }
 
     return (
-      <div className={styles.App}>
+      <Aux>
+        <button onClick={() => {this.setState({ showCockpit: false })}}>Remove Cockpit</button>
+        { this.state.showCockpit ? 
         <Cockpit
+          appTitle={this.props.appTitle}
           showPersons={this.state.showPersons}
-          persons={this.state.persons}
-          clicked={this.togglePersonsHandler} />
+          personsLength={this.state.persons.length}
+          clicked={this.togglePersonsHandler} /> : null }
+
         {persons}
-      </div>
+      </Aux>
     );
   }
 
 }
 
-export default App;
+export default withClass(App, styles.App);
 
 /*
 // This is function-based components
