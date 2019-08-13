@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import styles from './App.module.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Auxiliary';
 
 // Notes:
 // Use arrow function if you want to pass value to a function. 
@@ -94,7 +96,7 @@ class App extends Component {
     }
 
     return (
-      <div className={styles.App}>
+      <Aux>
         <button onClick={() => {this.setState({ showCockpit: false })}}>Remove Cockpit</button>
         { this.state.showCockpit ? 
         <Cockpit
@@ -104,13 +106,13 @@ class App extends Component {
           clicked={this.togglePersonsHandler} /> : null }
 
         {persons}
-      </div>
+      </Aux>
     );
   }
 
 }
 
-export default App;
+export default withClass(App, styles.App);
 
 /*
 // This is function-based components
